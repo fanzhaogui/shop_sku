@@ -1,0 +1,83 @@
+<div class="menu_bg">
+	<div class="menu">
+    	<!--Begin 商品分类详情 Begin-->    
+    	<div class="nav">
+        	<div class="nav_t">全部商品分类</div>
+            <div class="leftNav">
+                <ul>    
+                	<volist name="topCats" id="cats">  
+	                    <li index-pid="{$cats['id']}">
+	                    	<div class="fj">
+	                        	<span class="n_img"><span></span><img src="/public/h/images/nav1.png" /></span>
+	                            <span class="fl">{$cats["name"]}</span>
+	                        </div>
+	                        <div class="zj">
+	                            <div class="zj_l"></div>
+	                            <div class="zj_r">
+	                                <a href="#"><img src="/public/h/images/n_img1.jpg" width="236" height="200" /></a>
+	                                <a href="#"><img src="/public/h/images/n_img2.jpg" width="236" height="200" /></a>
+	                            </div>
+	                        </div>
+	                    </li>
+					</volist>	
+
+                </ul>            
+            </div>
+        </div>  
+        <script>
+        	$(".leftNav ul li").each(function(i, item){
+        		// console.log($(item).attr("index-pid"))
+        		// 当前顶级PID下的子分类
+        		var pid = $(item).attr("index-pid");
+        		$(item).bind("mouseover", function(){
+        			// 判断当前子分类下是否已经请求了，如果已经请求则不请求
+	        		var domain = $(item).find(".zj_l");
+	        		var data = domain.html();
+	        		console.log(data)
+	        		if (data == "") {
+	        			// alert(i +"需要请求");
+	        			$.ajax({
+	        				url:"/home/index/getChilds",
+	        				data:{pid:pid},
+	        				dataType:"JSON",
+	        				method:"POST",
+	        				success:function(res){
+	        					// console.log(typeof res);
+	        					var str = '';
+	        					$.each(res, function(i, vo){
+
+	        						console.log(vo.name)
+	        						str += "<h2><a href=''>"+ vo.name +"</a></h2>|";
+	        					})
+	        					domain.html("");
+	        					domain.append(str);
+	        				}
+	        			});
+	        		/*
+                        <div class="zj_l_c">
+                            <h2>零食 / 糖果 / 巧克力</h2>
+                            <a href="#">坚果</a>|<a href="#">蜜饯</a>|<a href="#">红枣</a>|<a href="#">牛肉干</a>|<a href="#">巧克力</a>|
+                            <a href="#">口香糖</a>|<a href="#">海苔</a>|<a href="#">鱼干</a>|<a href="#">蜜饯</a>|<a href="#">红枣</a>|
+                            <a href="#">蜜饯</a>|<a href="#">红枣</a>|<a href="#">牛肉干</a>|<a href="#">蜜饯</a>|
+                        </div>
+	        		 */
+	        		} else {
+	        			console.log(i +"不需要");
+	        		}
+        		});
+        	});
+        </script>
+        <!--End 商品分类详情 End-->                                                     
+    	<ul class="menu_r">                                                                                                                                               
+        	<li><a href="Index.html">首页</a></li>
+            <li><a href="Food.html">美食</a></li>
+            <li><a href="Fresh.html">生鲜</a></li>
+            <li><a href="HomeDecoration.html">家居</a></li>
+            <li><a href="SuitDress.html">女装</a></li>
+            <li><a href="MakeUp.html">美妆</a></li>
+            <li><a href="Digital.html">数码</a></li>
+            <li><a href="GroupBuying.html">团购</a></li>
+        </ul>
+        <div class="m_ad">中秋送好礼！</div>
+    </div>
+</div>
